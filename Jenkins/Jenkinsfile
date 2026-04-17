@@ -1,0 +1,16 @@
+pipeline {
+    parameters {
+        choice(name: 'INSTANCE_TYPE', choices: ['t2.micro', 't3.micro', 't3a.micro'], description: 'What instance type should be used?')
+    }
+    agent { label "ec2-fleet-${params.INSTANCE_TYPE}" }
+    stages {
+        stage('Checkout code') {
+            steps {
+                checkout scm
+                script {
+                    echo "Instance type from param: ${params.INSTANCE_TYPE}"
+                }
+            }
+        }
+    }
+}
